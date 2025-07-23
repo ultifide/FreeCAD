@@ -31,7 +31,6 @@
 
 #include "DrawBrokenView.h"
 
-//class QColor;
 class QString;
 
 namespace Base

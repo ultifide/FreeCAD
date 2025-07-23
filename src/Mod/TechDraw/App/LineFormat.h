@@ -27,7 +27,7 @@
 
 #include <Mod/TechDraw/TechDrawGlobal.h>
 
-#include <QColor>
+//#include <QColor>
 
 #include <Base/Color.h>
 
@@ -62,8 +62,8 @@ public:
 
     Base::Color getColor() const { return m_color; }
     void setColor(Base::Color color) { m_color = color; }
-    QColor getQColor() const { return m_color.asValue<QColor>(); }
-    void setQColor(QColor qColor) { m_color.set(qColor.redF(), qColor.greenF(), qColor.blueF(), 1.0 - qColor.alphaF()); }
+//    QColor getQColor() const { return m_color.asValue<QColor>(); }
+//    void setQColor(QColor qColor) { m_color.set(qColor.redF(), qColor.greenF(), qColor.blueF(), 1.0 - qColor.alphaF()); }
 
     bool getVisible() const { return m_visible; }
     void setVisible(bool viz) { m_visible = viz; }

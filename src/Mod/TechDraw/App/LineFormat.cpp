@@ -42,7 +42,7 @@ LineFormat::LineFormat()
     m_weight = getDefEdgeWidth();
     m_color= getDefEdgeColor();
     m_visible = true;
-    m_lineNumber = LineGenerator::fromQtStyle((Qt::PenStyle)m_style);
+    m_lineNumber = LineGenerator::fromQtStyle(m_style);
 }
 
 // static loader of default format
@@ -52,7 +52,7 @@ void LineFormat::initCurrentLineFormat()
     getCurrentLineFormat().setWidth(getDefEdgeWidth());
     getCurrentLineFormat().setColor(getDefEdgeColor());
     getCurrentLineFormat().setVisible(true);
-    getCurrentLineFormat().setLineNumber(LineGenerator::fromQtStyle((Qt::PenStyle)getCurrentLineFormat().getStyle()));
+    getCurrentLineFormat().setLineNumber(LineGenerator::fromQtStyle(getCurrentLineFormat().getStyle()));
 }
 
 LineFormat& LineFormat::getCurrentLineFormat()

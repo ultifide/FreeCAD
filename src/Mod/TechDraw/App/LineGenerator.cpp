@@ -78,7 +78,7 @@ TechDraw::LineGenerator::Pen TechDraw::LineGenerator::getLinePen(size_t, double)
 
 
 //! convert Qt line style to closest ISO line number
-int LineGenerator::fromQtStyle(Qt::PenStyle style)
+int LineGenerator::fromQtStyle(int style)
 {
     // the 4 standard Qt::PenStyles and ISO128 equivalents
     int dashed = 2;

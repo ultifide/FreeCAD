@@ -23,7 +23,6 @@
 #include "PreCompiled.h"
 #ifndef _PreComp_
 # include <string>
-# include <QApplication>
 # include <QString>
 #endif
 
@@ -465,8 +464,7 @@ int Preferences::lineStandard()
     // this message will appear many times if the parameter is invalid.
     int parameterValue = getPreferenceGroup("Standards")->GetInt("LineStandard", 1);
     if (parameterValue < 0) {
-        Base::Console().warning(qPrintable(QApplication::translate(
-        "Preferences", "The LineStandard parameter is invalid. Using zero instead.", nullptr)));
+        Base::Console().warning("The LineStandard parameter is invalid. Using zero instead.");
         return 0;
     }
     return getPreferenceGroup("Standards")->GetInt("LineStandard", 1);

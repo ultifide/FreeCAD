@@ -40,7 +40,7 @@
 
 #include <Mod/TechDraw/TechDrawGlobal.h>
 #include <map>
-#include <QPen>
+//#include <QPen>
 
 namespace TechDraw {
 
@@ -56,10 +56,15 @@ public:
         ASME
     };
 
-    QPen getBestPen(size_t lineNumber, Qt::PenStyle qtStyle, double width);
-    QPen getLinePen(size_t lineNumber, double nominalLineWidth);
+    struct Pen {
+        int color;
+        double width;
+        int style;
+    };
+    Pen getBestPen(size_t lineNumber, int style, double width);
+    Pen getLinePen(size_t lineNumber, double nominalLineWidth);
 
-    static int fromQtStyle(Qt::PenStyle style);
+    static int fromQtStyle(int style);
     static std::vector<std::string> getAvailableLineStandards();
     static std::string getLineStandardsBody();
 

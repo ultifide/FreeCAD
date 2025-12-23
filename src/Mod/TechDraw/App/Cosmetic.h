@@ -23,8 +23,6 @@
 #ifndef TECHDRAW_COSMETIC_H
 #define TECHDRAW_COSMETIC_H
 
-#include <QColor>
-
 #include <App/FeaturePython.h>
 #include <Base/Color.h>
 #include <Base/Persistence.h>

@@ -66,105 +66,19 @@ void LineGenerator::reloadDescriptions()
     m_lineDescs = getLineDescriptions();
 }
 
-//! figure out an appropriate QPen from an iso line number and a Qt PenStyle
-//! we prefer to use the ISO Line Number if available.
-QPen LineGenerator::getBestPen(size_t isoNumber, Qt::PenStyle qtStyle, double width)
-{
-    // TODO: use TechDraw::LineFormat::InvalidLine here
-    if (isoNumber > 0 &&
-        isoNumber < m_lineDefs.size()) {
-        // we have a valid line number, so use it
-        return getLinePen(isoNumber, width);
-    }
-    int qtline = fromQtStyle(qtStyle);
-    if (qtline > 0) {
-        // we have a reasonable approximation of a Qt Style
-        return getLinePen(qtline, width);
-    }
-    // no valid line and the qtStyle doesn't convert to a line numb45r
-    // so we'll just make it continuous.
-    return getLinePen(1, width);
+TechDraw::LineGenerator::Pen TechDraw::LineGenerator::getBestPen(size_t, int, double) {
+    // Stub function, for non-gui builds
+    return Pen{0, 0.0, 0};
 }
 
-//! create a QPen for a given line number and line width.  ISO lines are numbered
-//! 1-15 and ANSI lines are 1-4(?)  The line width is the nominal width in mm.
-QPen LineGenerator::getLinePen(size_t lineNumber, double nominalLineWidth)
-{
-//    Base::Console().message("LG::getLinePen(%d, %.3f)\n",
-//                             lineNumber, nominalLineWidth);
-    QPen linePen;
-    linePen.setWidthF(nominalLineWidth);
-
-    // Note: if the cap style is Round or Square, the lengths of the lines, or
-    // dots/dashes within the line, will be wrong by 1 pen width.  To get the
-    // exact line lengths or dash pattern, you must use Flat caps.  Flat caps
-    // look terrible at the corners.
-    linePen.setCapStyle((Qt::PenCapStyle)Preferences::LineCapStyle());
-
-    double proportionalAdjust{1.0};
-    if (!isCurrentProportional()) {
-        // ANSI.Y14.2M.1992 lines are specified in actual element lengths, but Qt will draw
-        // them as proportional to the line width.
-        proportionalAdjust = nominalLineWidth;
-    }
-
-    // valid line numbers are [1, number of line definitions]
-    // line 1 is always (?) continuous
-    // 0 substitutes for LineFormat::InvalidLine here
-    if (lineNumber < 2 ||
-        lineNumber > m_lineDefs.size()) {
-        // plain boring solid line (or possibly an invalid line number)
-        linePen.setStyle(Qt::SolidLine);
-        return linePen;
-    }
-
-    int lineIndex = lineNumber - 1;
-    std::vector<std::string> elements = m_lineDefs.at(lineIndex);
-
-    // there are some lines with numbers >1 that are also continuous, and
-    // a dash pattern is not applicable.
-    std::string naToken{"n/a"};
-    if (elements.empty() || elements.front() == naToken) {
-        // plain boring solid line (or possibly an invalid line number)
-        linePen.setStyle(Qt::SolidLine);
-        return linePen;
-    }
-
-    // there is at least one line style (ASME #11 Other) that is "invisible"
-    std::string noLineToken{"noline"};
-    if (elements.front() == noLineToken) {
-        linePen.setStyle(Qt::NoPen);
-        return linePen;
-    }
-
-    // interesting line styles
-    linePen.setStyle(Qt::CustomDashLine);
-    std::vector<double> dashPattern;
-    bool firstElement(true);
-    for (auto& entry : elements) {
-        if (firstElement &&
-            (entry == "Gap" || entry == "Space") ) {
-            // some dash patterns MAY begin with a gap/space, but Qt dash patterns are always
-            // "mark, space, mark, space", so we handle this by offsetting the pattern
-            // and skipping the first element.
-            linePen.setDashOffset(static_cast< double >(m_elementDefs[entry]) / proportionalAdjust);
-            firstElement = false;
-            continue;
-        }
-        firstElement = false;
-        dashPattern.push_back(static_cast< double >(m_elementDefs[entry]) / proportionalAdjust);
-    }
-
-    QVector<double> qDashPattern(dashPattern.begin(), dashPattern.end());
-
-    linePen.setDashPattern(qDashPattern);
-    linePen.setWidthF(nominalLineWidth);
-    return linePen;
+TechDraw::LineGenerator::Pen TechDraw::LineGenerator::getLinePen(size_t, double) {
+    // Stub function, for non-gui builds
+    return Pen{0, 0.0, 0};
 }
 
 
 //! convert Qt line style to closest ISO line number
-int LineGenerator::fromQtStyle(Qt::PenStyle style)
+int LineGenerator::fromQtStyle(int style)
 {
     // the 4 standard Qt::PenStyles and ISO128 equivalents
     int dashed = 2;
